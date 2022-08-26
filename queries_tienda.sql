@@ -12,19 +12,22 @@ SELECT * FROM producto;
 -- 4. Llista el nom dels productes, el preu en euros i el preu en dòlars estatunidencs (USD).
 SELECT nombre, precio, ROUND(0.99*precio, 2) FROM producto;
 
--- 5. Llista el nom dels productes, el preu en euros i el preu en dòlars estatunidencs (USD). Utilitza els següents àlies per a les columnes: nom de producto, euros, dòlars.
+-- 5. Llista el nom dels productes, el preu en euros i el preu en dòlars estatunidencs (USD). 
+-- Utilitza els següents àlies per a les columnes: nom de producto, euros, dòlars.
 SELECT nombre as `nom del producte`, precio as euros, ROUND(0.99*precio, 2) as `dòlars` FROM producto;
 
 -- 7. Llista els noms i els preus de tots els productes de la taula producto, convertint els noms a minúscula.
 SELECT LOWER(nombre), precio FROM producto;
 
--- 8. Llista el nom de tots els fabricants en una columna, i en una altra columna obtingui en majúscules els dos primers caràcters del nom del fabricant.
+-- 8. Llista el nom de tots els fabricants en una columna, i en una altra columna obtingui en majúscules els 
+-- dos primers caràcters del nom del fabricant.
 SELECT nombre, UPPER(SUBSTRING(nombre, 1,2)) as `caràcters` FROM fabricante;
 
 -- 9. Llista els noms i els preus de tots els productes de la taula producto, arrodonint el valor del preu.
 SELECT nombre, ROUND(precio) FROM producto;
 
--- 10. Llista els noms i els preus de tots els productes de la taula producto, truncant el valor del preu per a mostrar-lo sense cap xifra decimal.
+-- 10. Llista els noms i els preus de tots els productes de la taula producto, truncant el valor del preu per
+--  a mostrar-lo sense cap xifra decimal.
 SELECT nombre, precio, TRUNCATE(precio, 0) FROM producto;
 
 -- 11. Llista el codi dels fabricants que tenen productes en la taula producto.
@@ -39,22 +42,26 @@ SELECT nombre FROM fabricante ORDER BY nombre ASC;
 -- 14. Llista els noms dels fabricants ordenats de manera descendent.
 SELECT nombre FROM fabricante ORDER BY nombre DESC;
 
--- 15. Llista els noms dels productes ordenats, en primer lloc, pel nom de manera ascendent i, en segon lloc, pel preu de manera descendent.
+-- 15. Llista els noms dels productes ordenats, en primer lloc, pel nom de manera ascendent i, en segon lloc, 
+-- pel preu de manera descendent.
 SELECT nombre FROM producto ORDER BY nombre ASC, precio DESC;
 
 -- 16. Retorna una llista amb les 5 primeres files de la taula fabricante.
 SELECT * FROM fabricante LIMIT 5;
 
--- 17. Retorna una llista amb 2 files a partir de la quarta fila de la taula fabricante. La quarta fila també s'ha d'incloure en la resposta.
+-- 17. Retorna una llista amb 2 files a partir de la quarta fila de la taula fabricante. 
+-- La quarta fila també s'ha d'incloure en la resposta.
 SELECT DISTINCT f.* 
 FROM (SELECT * FROM fabricante LIMIT 3) as top3 RIGHT JOIN fabricante as f 
 ON (f.codigo = top3.codigo AND f.nombre = top3.nombre) 
 WHERE top3.codigo IS NULL LIMIT 2;
 
--- 18. Llista el nom i el preu del producte més barat. (Utilitza solament les clàusules ORDER BY i LIMIT). NOTA: Aquí no podria usar MIN(preu), necessitaria GROUP BY.
+-- 18. Llista el nom i el preu del producte més barat. (Utilitza solament les clàusules ORDER BY i LIMIT). 
+-- NOTA: Aquí no podria usar MIN(preu), necessitaria GROUP BY.
 SELECT nombre, precio FROM producto ORDER BY precio ASC LIMIT 1;
 
--- 19. Llista el nom i el preu del producte més car. (Utilitza solament les clàusules ORDER BY i LIMIT). NOTA: Aquí no podria usar MAX(preu), necessitaria GROUP BY.
+-- 19. Llista el nom i el preu del producte més car. (Utilitza solament les clàusules ORDER BY i LIMIT). 
+-- NOTA: Aquí no podria usar MAX(preu), necessitaria GROUP BY.
 SELECT nombre, precio FROM producto ORDER BY precio DESC LIMIT 1;
 
 -- 20. Llista el nom de tots els productes del fabricant el codi de fabricant del qual és igual a 2.
@@ -66,7 +73,8 @@ WHERE f.codigo = 2;
 SELECT p.nombre as producto, p.precio, f.nombre as fabricante 
 FROM producto as p JOIN fabricante as f ON f.codigo = p.codigo_fabricante;
 
--- 22. Retorna una llista amb el nom del producte, preu i nom de fabricant de tots els productes de la base de dades. Ordena el resultat pel nom del fabricant, per ordre alfabètic.
+-- 22. Retorna una llista amb el nom del producte, preu i nom de fabricant de tots els productes de la base de dades. 
+-- Ordena el resultat pel nom del fabricant, per ordre alfabètic.
 SELECT p.nombre as producto, p.precio, f.nombre as fabricante 
 FROM producto as p JOIN fabricante as f ON f.codigo = p.codigo_fabricante 
 ORDER BY f.nombre ASC;
@@ -115,7 +123,8 @@ SELECT p.nombre, p.precio
 FROM producto as p JOIN fabricante as f ON f.codigo = p.codigo_fabricante 
 WHERE f.nombre LIKE '%w%';
 
--- 32. Retorna un llistat amb el nom de producte, preu i nom de fabricant, de tots els productes que tinguin un preu major o igual a 180 €. Ordena el resultat, en primer lloc, pel preu (en ordre descendent) i, en segon lloc, pel nom (en ordre ascendent).
+-- 32. Retorna un llistat amb el nom de producte, preu i nom de fabricant, de tots els productes que tinguin un preu major o igual a 180 €. 
+-- Ordena el resultat, en primer lloc, pel preu (en ordre descendent) i, en segon lloc, pel nom (en ordre ascendent).
 SELECT p.nombre as producto, p.precio, f.nombre as fabricante 
 FROM producto as p JOIN fabricante as f ON f.codigo = p.codigo_fabricante 
 WHERE precio >= 180 ORDER BY p.precio DESC, p.nombre ASC;
@@ -124,7 +133,8 @@ WHERE precio >= 180 ORDER BY p.precio DESC, p.nombre ASC;
 SELECT f.* 
 FROM producto as p JOIN fabricante as f ON f.codigo = p.codigo_fabricante;
 
--- 34. Retorna un llistat de tots els fabricants que existeixen en la base de dades, juntament amb els productes que té cadascun d'ells. El llistat haurà de mostrar també aquells fabricants que no tenen productes associats.
+-- 34. Retorna un llistat de tots els fabricants que existeixen en la base de dades, juntament amb els productes que té cadascun d'ells. 
+-- El llistat haurà de mostrar també aquells fabricants que no tenen productes associats.
 SELECT f.*, p.nombre as producto 
 FROM fabricante as f LEFT JOIN producto as p ON p.codigo_fabricante = f.codigo;
 
