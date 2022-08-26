@@ -106,10 +106,19 @@ SELECT f.*, p.nombre as producto FROM fabricante as f LEFT JOIN producto as p ON
 SELECT p.* FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'Lenovo';
 
 -- 37. Retorna totes les dades dels productes que tenen el mateix preu que el producte més car del fabricant Lenovo. (Sense usar INNER JOIN).
-SELECT p.* FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo 
+SELECT p.* FROM fabricante as f RIGHT JOIN producto as p ON p.codigo_fabricante = f.codigo 
 WHERE p.precio = (SELECT MAX(p.precio) FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'Lenovo') ;
 
 -- 38. Llista el nom del producte més car del fabricant Lenovo.
+SELECT p.nombre FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo
+WHERE p.precio = (SELECT MAX(p.precio) FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'Lenovo') AND f.nombre LIKE 'Lenovo' ;
+
 -- 39. Llista el nom del producte més barat del fabricant Hewlett-Packard.
+SELECT p.nombre FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo
+WHERE p.precio = (SELECT MIN(p.precio) FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'Hewlett-Packard') AND f.nombre LIKE 'Hewlett-Packard';
+
 -- 40. Retorna tots els productes de la base de dades que tenen un preu major o igual al producte més car del fabricant Lenovo.
--- 41. Llesta tots els productes del fabricant Asus que tenen un preu superior al preu mitjà de tots els seus productes.
+SELECT p.* FROM producto as p JOIN fabricante as f ON p.codigo_fabricante = f.codigo WHERE p.precio >= (SELECT MAX(p.precio) FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'Lenovo');
+
+-- 41. Llista tots els productes del fabricant Asus que tenen un preu superior al preu mitjà de tots els seus productes.
+SELECT p.* FROM producto as p JOIN fabricante as f ON p.codigo_fabricante = f.codigo WHERE p.precio > (SELECT AVG(p.precio) FROM fabricante as f JOIN producto as p ON p.codigo_fabricante = f.codigo WHERE f.nombre LIKE 'ASUS') AND f.nombre LIKE 'ASUS';
